@@ -276,14 +276,16 @@ CatchingTutorialDebriefText:
 	done
 
 CatchingTutorialDeclinedText:
-	text "Oh. Fine, then."
-
-	para "Anyway, if you"
-	line "want to catch"
-
-	para "#MON, you have"
-	line "to walk a lot."
-	done
+    text "I understand, Mr." ; match text from minihack
+    line "Runner."
+    
+    para "I think you are"
+    line "capable of magic"
+    cont "anyways."
+    
+    para "Please proceed"
+    line "to Whirl Rekkie."
+    done
 
 CatchingTutorialRepeatText:
 	text "Huh? You want me"
