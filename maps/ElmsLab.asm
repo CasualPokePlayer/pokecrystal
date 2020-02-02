@@ -190,8 +190,8 @@ TotodilePokeBallScript:
 	iftrue LookAtElmPokeBallScript
 	turnobject ELMSLAB_ELM, DOWN
 	refreshscreen
-	pokepic TOTODILE
-	cry TOTODILE
+	pokepic BUTTERFREE ; custom starter
+	cry BUTTERFREE
 	waitbutton
 	closepokepic
 	opentext
@@ -203,12 +203,12 @@ TotodilePokeBallScript:
 	writetext ChoseStarterText
 	promptbutton
 	waitsfx
-	getmonname STRING_BUFFER_3, TOTODILE
+	getmonname STRING_BUFFER_3, BUTTERFREE
 	writetext ReceivedStarterText
 	playsound SFX_CAUGHT_MON
 	waitsfx
 	promptbutton
-	givepoke TOTODILE, 5, BERRY
+	givepoke BUTTERFREE, 5, BERRY
 	closetext
 	applymovement PLAYER, AfterTotodileMovement
 	sjump ElmDirectionsScript
@@ -474,6 +474,10 @@ AideScript_GivePotion:
 	writetext AideText_GiveYouPotion
 	promptbutton
 	verbosegiveitem POTION
+        getitemname STRING_BUFFER_4, REPEL
+	scall AideScript_ReceiveTheBalls
+	giveitem REPEL, 5 ; give 5 repels too
+	promptbutton
 	writetext AideText_AlwaysBusy
 	waitbutton
 	closetext
@@ -498,9 +502,9 @@ AideScript_GiveYouBalls:
 	opentext
 	writetext AideText_GiveYouBalls
 	promptbutton
-	getitemname STRING_BUFFER_4, POKE_BALL
+	getitemname STRING_BUFFER_4, MASTER_BALL
 	scall AideScript_ReceiveTheBalls
-	giveitem POKE_BALL, 5
+	giveitem MASTER_BALL, 5 ; give Master Balls instead of Poke Balls
 	writetext AideText_ExplainBalls
 	promptbutton
 	itemnotify
@@ -864,8 +868,8 @@ TakeCyndaquilText:
 
 TakeTotodileText:
 	text "ELM: Do you want"
-	line "TOTODILE, the"
-	cont "water #MON?"
+	line "BUTTERFREE, the" ; custom starter text
+	cont "bug #MON?"
 	done
 
 TakeChikoritaText:
@@ -1260,13 +1264,16 @@ AideText_GiveYouBalls:
 	done
 
 AideText_ExplainBalls:
-	text "To add to your"
-	line "#DEX, you have"
-	cont "to catch #MON."
+	text "With these in your" ; match text in minihack
+	line "pocket, i don't"
+	cont "know how you could"
+        cont "miss a single"
+        cont "encounter."
 
-	para "Throw # BALLS"
-	line "at wild #MON"
-	cont "to get them."
+	para "Maybe if your name"
+	line "starts with Keiz.."
+	para "..."
+        line "Yeah, maybe ..."
 	done
 
 ElmsLabOfficerText1:
