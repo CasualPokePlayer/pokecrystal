@@ -202,9 +202,9 @@ endr
 	and a
 	jr nz, .copywildmonDVs
 
-	call Random
+	ld a,$ED ; custom atk/def starter DVs
 	ld b, a
-	call Random
+	ld a,-1 ; custom spe/spc starter DVs
 	ld c, a
 .initializeDVs
 	ld a, b
