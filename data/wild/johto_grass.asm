@@ -1193,7 +1193,7 @@ JohtoGrassWildMons:
 	map_id ROUTE_29
 	db 10 percent, 10 percent, 10 percent ; encounter rates: morn/day/nite
 	; morn
-	db 2, SENTRET
+	db 2, SENTRET ; only Sentret at morn/day
 	db 2, SENTRET
 	db 2, SENTRET
 	db 2, SENTRET
@@ -1220,7 +1220,7 @@ JohtoGrassWildMons:
 	map_id ROUTE_30
 	db 10 percent, 10 percent, 10 percent ; encounter rates: morn/day/nite
 	; morn
-	db 4, HOPPIP
+	db 4, HOPPIP ; only Hoppip at morn/day
 	db 4, HOPPIP
 	db 4, HOPPIP
 	db 4, HOPPIP
@@ -1236,7 +1236,7 @@ JohtoGrassWildMons:
 	db 4, HOPPIP
 	db 4, HOPPIP
 	; nite
-	db 4, POLIWAG
+	db 4, POLIWAG ; only Poliwag at night
 	db 4, POLIWAG
 	db 4, POLIWAG
 	db 4, POLIWAG
@@ -1247,7 +1247,7 @@ JohtoGrassWildMons:
 	map_id ROUTE_31
 	db 10 percent, 10 percent, 10 percent ; encounter rates: morn/day/nite
 	; morn
-	db 5, BELLSPROUT
+	db 5, BELLSPROUT ; only Bellsprout at morn/day
 	db 5, BELLSPROUT
 	db 5, BELLSPROUT
 	db 5, BELLSPROUT
@@ -1263,7 +1263,7 @@ JohtoGrassWildMons:
 	db 5, BELLSPROUT
 	db 5, BELLSPROUT
 	; nite
-	db 4, POLIWAG
+	db 4, POLIWAG ; only Poliwag at night
 	db 4, POLIWAG
 	db 4, POLIWAG
 	db 4, POLIWAG
@@ -1274,7 +1274,7 @@ JohtoGrassWildMons:
 	map_id ROUTE_32
 	db 10 percent, 10 percent, 10 percent ; encounter rates: morn/day/nite
 	; morn
-	db 7, BELLSPROUT
+	db 7, BELLSPROUT ; only Bellsprout at all times
 	db 7, BELLSPROUT
 	db 7, BELLSPROUT
 	db 7, BELLSPROUT
