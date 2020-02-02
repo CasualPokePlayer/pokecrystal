@@ -38,7 +38,7 @@ Marts:
 
 MartCherrygrove:
 	db 5 ; # items
-        db REPEL
+        db REPEL ; add Repel to Shop
 	db POTION
 	db ANTIDOTE
 	db PARLYZ_HEAL
@@ -47,7 +47,7 @@ MartCherrygrove:
 
 MartCherrygroveDex:
 	db 6 ; # items
-        db REPEL
+        db REPEL ; likewise
 	db POKE_BALL
 	db POTION
 	db ANTIDOTE
@@ -57,7 +57,7 @@ MartCherrygroveDex:
 
 MartViolet:
 	db 11 ; # items
-	db REPEL
+	db REPEL ; likewise
 	db POKE_BALL
 	db POTION
 	db ESCAPE_ROPE
