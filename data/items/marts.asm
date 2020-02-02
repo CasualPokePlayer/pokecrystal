@@ -37,7 +37,8 @@ Marts:
 .End
 
 MartCherrygrove:
-	db 4 ; # items
+	db 5 ; # items
+        db REPEL
 	db POTION
 	db ANTIDOTE
 	db PARLYZ_HEAL
@@ -45,7 +46,8 @@ MartCherrygrove:
 	db -1 ; end
 
 MartCherrygroveDex:
-	db 5 ; # items
+	db 6 ; # items
+        db REPEL
 	db POKE_BALL
 	db POTION
 	db ANTIDOTE
@@ -54,7 +56,8 @@ MartCherrygroveDex:
 	db -1 ; end
 
 MartViolet:
-	db 10 ; # items
+	db 11 ; # items
+	db REPEL
 	db POKE_BALL
 	db POTION
 	db ESCAPE_ROPE
