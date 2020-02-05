@@ -56,7 +56,7 @@ MartCherrygroveDex:
 	db -1 ; end
 
 MartViolet:
-	db 11 ; # items
+	db 10 ; # items
 	db REPEL ; likewise
 	db POKE_BALL
 	db POTION
@@ -66,8 +66,7 @@ MartViolet:
 	db AWAKENING
 	db X_DEFEND
 	db X_ATTACK
-	db X_SPEED
-	db FLOWER_MAIL
+	db X_SPEED ; remove flower mail to avoid crash
 	db -1 ; end
 
 MartAzalea:
