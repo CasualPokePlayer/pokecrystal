@@ -202,9 +202,9 @@ endr
 	and a
 	jr nz, .copywildmonDVs
 
-	ld a,$ED ; custom atk/def starter DVs
+	ld a,$FF ; custom atk/def starter DVs
 	ld b, a
-	ld a,-1 ; custom spe/spc starter DVs
+	ld a,$FF ; custom spe/spc starter DVs
 	ld c, a
 .initializeDVs
 	ld a, b
