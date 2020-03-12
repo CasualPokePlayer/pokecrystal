@@ -190,8 +190,8 @@ TotodilePokeBallScript:
 	iftrue LookAtElmPokeBallScript
 	turnobject ELMSLAB_ELM, DOWN
 	refreshscreen
-	pokepic CUSTOM_STARTER ; custom starter
-	cry CUSTOM_STARTER
+	pokepic ABRA ; custom starter
+	cry ABRA
 	waitbutton
 	closepokepic
 	opentext
@@ -868,8 +868,8 @@ TakeCyndaquilText:
 
 TakeTotodileText:
 	text "ELM: Do you want"
-	line "CUSTOM_STARTER, the" ; custom starter text
-	cont "TYPE_1 #MON?"
+	line "ABRA, the" ; custom starter text
+	cont "psychic #MON?"
 	done
 
 TakeChikoritaText:
