@@ -138,6 +138,7 @@ OBJECT_EVENT_SIZE EQU 13 ; object_event
 ; command queue members
 CMDQUEUE_TYPE  EQU 0
 CMDQUEUE_ADDR  EQU 1
+CMDQUEUE_02    EQU 2
 CMDQUEUE_03    EQU 3
 CMDQUEUE_04    EQU 4
 CMDQUEUE_05    EQU 5
@@ -223,7 +224,7 @@ EMOTE_FROM_MEM EQU -1
 	const FRUITTREE_PEWTER_CITY_1 ; 1c
 	const FRUITTREE_PEWTER_CITY_2 ; 1d
 	const FRUITTREE_FUCHSIA_CITY  ; 1e
-NUM_FRUIT_TREES EQU const_value + -1
+NUM_FRUIT_TREES EQU const_value - 1
 
 ; describedecoration arguments
 ; DescribeDecoration.JumpTable indexes (see engine/overworld/decorations.asm)
