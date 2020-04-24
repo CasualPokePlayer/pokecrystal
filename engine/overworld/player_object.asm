@@ -5,11 +5,11 @@ BlankScreen:
 	call ClearBGPalettes
 	call ClearSprites
 	hlcoord 0, 0
-	ld bc, wTileMapEnd - wTileMap
+	ld bc, wTilemapEnd - wTilemap
 	ld a, " "
 	call ByteFill
-	hlcoord 0, 0, wAttrMap
-	ld bc, wAttrMapEnd - wAttrMap
+	hlcoord 0, 0, wAttrmap
+	ld bc, wAttrmapEnd - wAttrmap
 	ld a, $7
 	call ByteFill
 	call WaitBGMap2
@@ -20,10 +20,10 @@ SpawnPlayer:
 	ld a, -1
 	ld [wObjectFollow_Leader], a
 	ld [wObjectFollow_Follower], a
-	ld a, $0
+	ld a, PLAYER
 	ld hl, PlayerObjectTemplate
 	call CopyPlayerObjectTemplate
-	ld b, $0
+	ld b, PLAYER
 	call PlayerSpawn_ConvertCoords
 	ld a, PLAYER_OBJECT
 	call GetMapObject
@@ -122,9 +122,10 @@ RefreshPlayerCoords:
 	ld hl, wPlayerLastMapY
 	ld [hl], e
 	ld e, a
+; the next three lines are useless
 	ld a, [wObjectFollow_Leader]
 	cp $0
-	ret nz ; wtf
+	ret nz
 	ret
 
 CopyObjectStruct::

@@ -226,9 +226,9 @@ ApplyMapPalettes:
 	ret
 
 FadeMapMusicAndPalettes:
-	ld e, 0
+	ld e, LOW(MUSIC_NONE)
 	ld a, [wMusicFadeID]
-	ld d, 0
+	ld d, HIGH(MUSIC_NONE)
 	ld a, [wMusicFadeID + 1]
 	ld a, $4
 	ld [wMusicFade], a
@@ -239,7 +239,7 @@ ForceMapMusic:
 	ld a, [wPlayerState]
 	cp PLAYER_BIKE
 	jr nz, .notbiking
-	call VolumeOff
+	call MinVolume
 	ld a, $88
 	ld [wMusicFade], a
 .notbiking

@@ -1,7 +1,7 @@
 RotateUnownFrontpic:
 ; something to do with Unown printer
 	push de
-	xor a ; sScratch
+	xor a ; BANK(sScratch)
 	call GetSRAMBank
 	ld hl, sScratch
 	ld bc, 0
@@ -98,10 +98,10 @@ RotateUnownFrontpic:
 gbprinterrect: MACRO
 y = 0
 rept \1
-x = \1 * (\2 + -1) + y
+x = \1 * (\2 - 1) + y
 rept \2
 	dw wGameboyPrinterRAM tile x
-x = x + -\2
+x = x - \2
 endr
 y = y + 1
 endr

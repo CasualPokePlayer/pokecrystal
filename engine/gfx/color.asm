@@ -103,7 +103,7 @@ InitPartyMenuPalettes:
 	ld hl, PalPacket_PartyMenu + 1
 	call CopyFourPalettes
 	call InitPartyMenuOBPals
-	call WipeAttrMap
+	call WipeAttrmap
 	ret
 
 ; SGB layout for SCGB_PARTY_MENU_HP_PALS
@@ -241,21 +241,21 @@ LoadTrainerClassPaletteAsNthBGPal:
 	ld a, [wTrainerClass]
 	call GetTrainerPalettePointer
 	ld a, e
-	jr got_palette_pointer_8bd7
+	jr LoadNthMiddleBGPal
 
 LoadMonPaletteAsNthBGPal:
 	ld a, [wCurPartySpecies]
 	call _GetMonPalettePointer
 	ld a, e
 	bit 7, a
-	jr z, got_palette_pointer_8bd7
+	jr z, LoadNthMiddleBGPal
 	and $7f
 	inc hl
 	inc hl
 	inc hl
 	inc hl
 
-got_palette_pointer_8bd7
+LoadNthMiddleBGPal:
 	push hl
 	ld hl, wBGPals1
 	ld de, 1 palettes
@@ -284,7 +284,7 @@ Unreferenced_Function8bec:
 	ld a, [wEnemyLightScreenCount] ; col
 	ld c, a
 	ld a, [wEnemyReflectCount] ; row
-	hlcoord 0, 0, wAttrMap
+	hlcoord 0, 0, wAttrmap
 	ld de, SCREEN_WIDTH
 .loop
 	and a
@@ -320,8 +320,8 @@ ApplyMonOrTrainerPals:
 .load_palettes
 	ld de, wBGPals1
 	call LoadPalette_White_Col1_Col2_Black
-	call WipeAttrMap
-	call ApplyAttrMap
+	call WipeAttrmap
+	call ApplyAttrmap
 	call ApplyPals
 	ret
 
@@ -359,7 +359,7 @@ ApplyHPBarPals:
 .PartyMenu:
 	ld e, c
 	inc e
-	hlcoord 11, 1, wAttrMap
+	hlcoord 11, 1, wAttrmap
 	ld bc, 2 * SCREEN_WIDTH
 	ld a, [wCurPartyMon]
 .loop
@@ -437,8 +437,8 @@ LoadMailPalettes:
 	ld a, BANK(wBGPals1)
 	call FarCopyWRAM
 	call ApplyPals
-	call WipeAttrMap
-	call ApplyAttrMap
+	call WipeAttrmap
+	call ApplyAttrmap
 	ret
 
 .MailPals:
@@ -453,8 +453,8 @@ Unreferenced_Function95f0:
 	ld a, BANK(wBGPals1)
 	call FarCopyWRAM
 	call ApplyPals
-	call WipeAttrMap
-	call ApplyAttrMap
+	call WipeAttrmap
+	call ApplyAttrmap
 	ret
 
 .Palette:
@@ -590,8 +590,8 @@ ResetBGPals:
 	pop af
 	ret
 
-WipeAttrMap:
-	hlcoord 0, 0, wAttrMap
+WipeAttrmap:
+	hlcoord 0, 0, wAttrmap
 	ld bc, SCREEN_WIDTH * SCREEN_HEIGHT
 	xor a
 	call ByteFill
@@ -605,7 +605,7 @@ ApplyPals:
 	call FarCopyWRAM
 	ret
 
-ApplyAttrMap:
+ApplyAttrmap:
 	ldh a, [rLCDC]
 	bit rLCDC_ENABLE, a
 	jr z, .UpdateVBank1
@@ -622,7 +622,7 @@ ApplyAttrMap:
 	ret
 
 .UpdateVBank1:
-	hlcoord 0, 0, wAttrMap
+	hlcoord 0, 0, wAttrmap
 	debgcoord 0, 0
 	ld b, SCREEN_HEIGHT
 	ld a, $1
@@ -659,7 +659,7 @@ CGB_ApplyPartyMenuHPPals:
 	ld a, [de]
 	inc a
 	ld e, a
-	hlcoord 11, 2, wAttrMap
+	hlcoord 11, 2, wAttrmap
 	ld bc, 2 * SCREEN_WIDTH
 	ld a, [wSGBPals]
 .loop
@@ -1191,8 +1191,8 @@ PredefPals:
 INCLUDE "gfx/sgb/predef.pal"
 
 SGBBorderMap:
-; interleaved tile ids and palette ids
-INCBIN "gfx/sgb/sgb_border.bin"
+; interleaved tile ids and palette ids, without the center 20x18 screen area
+INCBIN "gfx/sgb/sgb_border.sgb.tilemap"
 
 SGBBorderPalettes:
 ; assumed to come after SGBBorderMap

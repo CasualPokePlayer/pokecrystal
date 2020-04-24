@@ -19,7 +19,8 @@ BASE_UNKNOWN_1   EQUS "(wBaseUnknown1 - wCurBaseData)"
 BASE_EGG_STEPS   EQUS "(wBaseEggSteps - wCurBaseData)"
 BASE_UNKNOWN_2   EQUS "(wBaseUnknown2 - wCurBaseData)"
 BASE_PIC_SIZE    EQUS "(wBasePicSize - wCurBaseData)"
-BASE_PADDING     EQUS "(wBasePadding - wCurBaseData)"
+BASE_FRONTPIC    EQUS "(wBaseUnusedFrontpic - wCurBaseData)"
+BASE_BACKPIC     EQUS "(wBaseUnusedBackpic - wCurBaseData)"
 BASE_GROWTH_RATE EQUS "(wBaseGrowthRate - wCurBaseData)"
 BASE_EGG_GROUPS  EQUS "(wBaseEggGroups - wCurBaseData)"
 BASE_TMHM        EQUS "(wBaseTMHM - wCurBaseData)"
@@ -123,7 +124,7 @@ MONS_PER_BOX EQU 20
 NUM_BOXES    EQU 14
 
 ; hall of fame
-HOF_MON_LENGTH EQU 1 + 2 + 2 + 1 + (MON_NAME_LENGTH + -1) ; species, id, dvs, level, nick
+HOF_MON_LENGTH EQU 1 + 2 + 2 + 1 + (MON_NAME_LENGTH - 1) ; species, id, dvs, level, nick
 HOF_LENGTH EQU 1 + HOF_MON_LENGTH * PARTY_LENGTH + 1 ; win count, party, terminator
 NUM_HOF_TEAMS EQU 30
 

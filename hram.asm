@@ -3,7 +3,8 @@ SECTION "HRAM", HRAM
 hTransferVirtualOAM:: ds 10 ; ff80
 
 hROMBankBackup:: db ; ff8a
-hBuffer:: db ; ff8b
+hFarByte::
+hTempBank:: db ; ff8b
 hSRAMBank:: db ; ff8c
 
 hRTCDayHi::   db ; ff8d
@@ -32,7 +33,7 @@ hVBlank:: db ; ff9e
 hMapEntryMethod:: db ; ff9f
 hMenuReturn:: db ; ffa0
 
-	ds 1
+hUnusedFFA1:: db ; ffa1
 
 hJoypadReleased:: db ; ffa2
 hJoypadPressed::  db ; ffa3
@@ -94,18 +95,24 @@ NEXTU ; ffb3
 hMGStatusFlags:: db ; ffbc
 ENDU ; ffbd
 
+UNION
 hUsedSpriteIndex:: db ; ffbd
 hUsedSpriteTile::  db ; ffbe
-hFFBF::            db ; ffbf
-hFFC0::            db ; ffc0
-hFFC1::            db ; ffc1
-hFFC2::            db ; ffc2
+NEXTU
+hCurSpriteXCoord::   db ; ffbd
+hCurSpriteYCoord::   db ; ffbe
+hCurSpriteXPixel::   db ; ffbf
+hCurSpriteYPixel::   db ; ffc0
+hCurSpriteTile::     db ; ffc1
+hCurSpriteOAMFlags:: db ; ffc2
+ENDU
 
 UNION ; ffc3
 hMoneyTemp:: ds 3 ; ffc3
 NEXTU ; ffc3
 hMGJoypadPressed::  db ; ffc3
 hMGJoypadReleased:: db ; ffc4
+hMGPrevTIMA::       db ; ffc5
 ENDU ; ffc6
 
 hLCDCPointer::     db ; ffc6
@@ -146,7 +153,7 @@ hRandom::
 hRandomAdd:: db ; ffe1
 hRandomSub:: db ; ffe2
 
-hSecondsBackup:: db ; ffe3
+hUnusedBackup:: db ; ffe3
 
 hBattleTurn:: ; ffe4
 ; Which trainer's turn is it? 0: player, 1: opponent trainer

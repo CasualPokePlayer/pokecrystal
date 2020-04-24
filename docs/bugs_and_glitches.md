@@ -30,6 +30,7 @@ Some fixes are mentioned as breaking compatibility with link battles. This can b
 - [A Disabled but PP Up–enhanced move may not trigger Struggle](#a-disabled-but-pp-upenhanced-move-may-not-trigger-struggle)
 - [A Pokémon that fainted from Pursuit will have its old status condition when revived](#a-pokémon-that-fainted-from-pursuit-will-have-its-old-status-condition-when-revived)
 - [Lock-On and Mind Reader don't always bypass Fly and Dig](#lock-on-and-mind-reader-dont-always-bypass-fly-and-dig)
+- [Wild Pokémon can always Teleport regardless of level difference](#wild-pokémon-can-always-teleport-regardless-of-level-difference)
 - [Beat Up can desynchronize link battles](#beat-up-can-desynchronize-link-battles)
 - [Beat Up works incorrectly with only one Pokémon in the party](#beat-up-works-incorrectly-with-only-one-pokémon-in-the-party)
 - [Beat Up may fail to raise Substitute](#beat-up-may-fail-to-raise-substitute)
@@ -77,6 +78,7 @@ Some fixes are mentioned as breaking compatibility with link battles. This can b
 - [`LoadSpriteGFX` does not limit the capacity of `UsedSprites`](#loadspritegfx-does-not-limit-the-capacity-of-usedsprites)
 - [`ChooseWildEncounter` doesn't really validate the wild Pokémon species](#choosewildencounter-doesnt-really-validate-the-wild-pokémon-species)
 - [`TryObjectEvent` arbitrary code execution](#tryobjectevent-arbitrary-code-execution)
+- [`ReadObjectEvents` overflows into `wObjectMasks`](#readobjectevents-overflows-into-wobjectmasks)
 - [`ClearWRAM` only clears WRAM bank 1](#clearwram-only-clears-wram-bank-1)
 - [`BattleAnimCmd_ClearObjs` only clears the first 6⅔ objects](#battleanimcmd_clearobjs-only-clears-the-first-6-objects)
 
@@ -340,7 +342,7 @@ As Pryce's dialog ("That BADGE will raise the SPECIAL stats of POKéMON.") impli
  	call GetBattleVarAddr
  	push af
  	set SUBSTATUS_CONFUSED, [hl]
-+	ld a, [hBattleTurn]
++	ldh a, [hBattleTurn]
 +	and a
 +	ld hl, wEnemyConfuseCount
 +	jr z, .set_confuse_count
@@ -348,7 +350,7 @@ As Pryce's dialog ("That BADGE will raise the SPECIAL stats of POKéMON.") impli
 +.set_confuse_count
 +	call BattleRandom
 +	and %11
-+	add a, 2
++	add 2
 +	ld [hl], a
  	ld a, BATTLE_VARS_MOVE_ANIM
  	call GetBattleVarAddr
@@ -693,6 +695,25 @@ This bug affects Attract, Curse, Foresight, Mean Look, Mimic, Nightmare, Spider 
 ```
 
 
+## Wild Pokémon can always Teleport regardless of level difference
+
+**Fix:** Edit `BattleCommand_Teleport` in [engine/battle/move_effects/teleport.asm](https://github.com/pret/pokecrystal/blob/master/engine/battle/move_effects/teleport.asm):
+
+```diff
+ .loop_enemy
+ 	call BattleRandom
+ 	cp c
+ 	jr nc, .loop_enemy
+ 	srl b
+ 	srl b
+ 	cp b
+-	; This should be jr c, .failed
+-	; As written, it makes enemy use of Teleport always succeed if able
+-	jr nc, .run_away
++	jr c, .failed
+```
+
+
 ## Beat Up can desynchronize link battles
 
 *Fixing this bug will break compatibility with standard Pokémon Crystal for link battles.*
@@ -881,8 +902,12 @@ This bug existed for all battles in Gold and Silver, and was only fixed for sing
  	ld hl, wEnemyMonType1
  	ldh a, [hBattleTurn]
  	and a
-	jr z, CheckTypeMatchup
+-	jr z, CheckTypeMatchup
++	jr z, .get_type
  	ld hl, wBattleMonType1
++.get_type
++	ld a, BATTLE_VARS_MOVE_TYPE
++	call GetBattleVar ; preserves hl, de, and bc
  CheckTypeMatchup:
 -; There is an incorrect assumption about this function made in the AI related code: when
 -; the AI calls CheckTypeMatchup (not BattleCheckTypeMatchup), it assumes that placing the
@@ -890,8 +915,6 @@ This bug existed for all battles in Gold and Silver, and was only fixed for sing
 -; this assumption is incorrect. A simple fix would be to load the move type for the
 -; current move into a in BattleCheckTypeMatchup, before falling through, which is
 -; consistent with how the rest of the code assumes this code works like.
-+	ld a, BATTLE_VARS_MOVE_TYPE
-+	call GetBattleVar ; preserves hl, de, and bc
  	push hl
  	push de
  	push bc
@@ -1820,8 +1843,8 @@ This bug can allow you to talk to Eusine in Celadon City and encounter Ho-Oh wit
 
  	ld hl, wPlayerName
 
--rept NAME_LENGTH_JAPANESE + -2 ; should be PLAYER_NAME_LENGTH + -2
-+rept PLAYER_NAME_LENGTH + -2
+-rept NAME_LENGTH_JAPANESE - 2 ; should be PLAYER_NAME_LENGTH - 2
++rept PLAYER_NAME_LENGTH - 2
  	ld a, [de]
  	cp [hl]
  	jr nz, .notfound
@@ -2120,6 +2143,39 @@ This supports up to six entries.
 -	; pop bc
  	xor a
  	ret
+```
+
+
+## `ReadObjectEvents` overflows into `wObjectMasks`
+
+**Fix:** Edit `ReadObjectEvents` in [home/map.asm](https://github.com/pret/pokecrystal/blob/master/home/map.asm):
+
+```diff
+-; get NUM_OBJECTS - [wCurMapObjectEventCount]
++; get NUM_OBJECTS - [wCurMapObjectEventCount] - 1
+ 	ld a, [wCurMapObjectEventCount]
+ 	ld c, a
+-	ld a, NUM_OBJECTS ; - 1
++	ld a, NUM_OBJECTS - 1
+ 	sub c
+ 	jr z, .skip
+-	; jr c, .skip
++	jr c, .skip
+ 
+ 	; could have done "inc hl" instead
+ 	ld bc, 1
+ 	add hl, bc
+-; Fill the remaining sprite IDs and y coords with 0 and -1, respectively.
+-; Bleeds into wObjectMasks due to a bug.  Uncomment the above code to fix.
+ 	ld bc, MAPOBJECT_LENGTH
+ .loop
+ 	ld [hl],  0
+ 	inc hl
+ 	ld [hl], -1
+ 	dec hl
+ 	add hl, bc
+ 	dec a
+ 	jr nz, .loop
 ```
 
 
