@@ -190,8 +190,8 @@ TotodilePokeBallScript:
 	iftrue LookAtElmPokeBallScript
 	turnobject ELMSLAB_ELM, DOWN
 	refreshscreen
-	pokepic CUSTOM_STARTER ; custom starter
-	cry CUSTOM_STARTER
+	pokepic VAPOREON ; custom starter
+	cry VAPOREON
 	waitbutton
 	closepokepic
 	opentext
@@ -203,12 +203,12 @@ TotodilePokeBallScript:
 	writetext ChoseStarterText
 	promptbutton
 	waitsfx
-	getmonname STRING_BUFFER_3, CUSTOM_STARTER
+	getmonname STRING_BUFFER_3, VAPOREON
 	writetext ReceivedStarterText
 	playsound SFX_CAUGHT_MON
 	waitsfx
 	promptbutton
-	givepoke CUSTOM_STARTER, 5, BERRY
+	givepoke VAPOREON, 5, BERRY
 	closetext
 	applymovement PLAYER, AfterTotodileMovement
 	sjump ElmDirectionsScript
@@ -868,8 +868,8 @@ TakeCyndaquilText:
 
 TakeTotodileText:
 	text "ELM: Do you want"
-	line "CUSTOM_STARTER, the" ; custom starter text
-	cont "TYPE_1 #MON?"
+	line "VAPOREON, the" ; custom starter text
+	cont "water #MON?"
 	done
 
 TakeChikoritaText:
